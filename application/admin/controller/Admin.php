@@ -4,7 +4,7 @@ namespace app\admin\controller;
 use app\Common\Validate\AdminValidate;
 use think\Controller;
 
-class Admin extends Controller
+class Admin extends Base
 {
     public function index()
     {
