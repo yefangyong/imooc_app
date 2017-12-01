@@ -7,9 +7,7 @@
  */
 
 namespace app\Common\Validate;
-
-
-use think\Controller;
+use app\common\lib\exception\BaseException;
 use think\Validate;
 
 class BaseValidate extends Validate
@@ -20,13 +18,19 @@ class BaseValidate extends Validate
      */
     public function goCheck() {
         $params = request()->param();
+        $header = request()->header();
+        $params = array_merge($params,$header);
         $result = $this->batch()->check($params);
         if(!$result) {
             $error = $this->error;
             if(is_array($error)) {
                 $error = implode(',',$error);
             }
-           exception($error);
+            throw new BaseException([
+                'code'=>10000,
+                'message'=>$error,
+                'httpCode'=>401
+            ]);
         }else {
             return true;
         }

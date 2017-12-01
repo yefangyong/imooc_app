@@ -19,7 +19,6 @@ class Login extends Base
   public function _initialize()
   {
   }
-
     /**
      * @return mixed
      * 登录功能开发
@@ -30,16 +29,16 @@ class Login extends Base
             $post = input('post.');
             $res = captcha_check($post['code']);
             if(!$res) {
-                $this->error('验证码错误');
+               return show(0,'验证码错误');
             }
             $rel = AdminUser::get(array('username'=>$post['username']));
             if(!$rel || $rel->status != config('code.status_normal')) {
-                $this->error('用户名不存在');
+                return show(0,'用户名不存在');
             }
             $pwd =IAuth::setPassword($post['password']);
             $user = AdminUser::get(array('password'=>$pwd));
             if(!$user) {
-                $this->error('密码错误');
+                return show(0,'密码错误');
             }
             //修改登录状态，保存到session
             $data = array('last_login_time'=>time(),'last_login_ip'=>request()->ip());
@@ -49,7 +48,7 @@ class Login extends Base
                 $this->error($e->getMessage());
             }
             session(config('admin.session_user'),$user,config('admin.session_scope'));
-            $this->success('登录成功','index/index');
+            return show(1,'登录成功');
         }else {
             $isLogin = $this->isLogin();
             if($isLogin) {
