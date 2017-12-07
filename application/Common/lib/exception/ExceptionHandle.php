@@ -43,7 +43,7 @@ class ExceptionHandle extends Handle
             'message'=>$this->message,
             'url'=>request()->url()
         ];
-        return json($data,$this->httpCode);
+        return show(0,$this->message,$data,$this->httpCode);
     }
 
     /**

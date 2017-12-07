@@ -54,5 +54,55 @@ class News extends Base
         return $count;
     }
 
+    /**
+     * @param int $num
+     * @return false|\PDOStatement|string|\think\Collection
+     * 获取头图的数据
+     */
+    public function getHeadNormalNews($num = 4) {
+        $data = [
+            'status'=>1,
+            'is_head_figure'=>1
+        ];
+        $order = [
+            'id'=>'desc'
+        ];
+        return $this->where($data)->field($this->_getListFiled())->order($order)->limit($num)->select();
+    }
+
+    /**
+     * @param int $num
+     * @return false|\PDOStatement|string|\think\Collection
+     * 获取推荐的数据
+     */
+    public function getPositionNormalNews($num = 20) {
+        $data = [
+            'status'=>1,
+            'is_position'=>1
+        ];
+        $order = [
+            'id'=>'desc'
+        ];
+        return $this->where($data)->field($this->_getListFiled())->order($order)->limit($num)->select();
+    }
+
+    /**
+     * @return array
+     * 获取通用的字段
+     */
+    private function _getListFiled() {
+        return [
+            'id',
+            'catid',
+            'image',
+            'title',
+            'read_count',
+            'status',
+            'is_position',
+            'update_time',
+            'create_time'
+        ];
+    }
+
 
 }

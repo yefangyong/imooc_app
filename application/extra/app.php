@@ -10,4 +10,6 @@ return [
     'aeskey'=>'yfyjsz-imooc_app',
     'app_sign_time'=>600,
     'app_cache_time'=>800,
+    'success'=>1,
+    'error'=>0
 ];

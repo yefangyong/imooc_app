@@ -13,3 +13,5 @@ use Think\Route;
 
 Route::post('api/:version/test','api/:version.test/index');
 Route::get('api/:version/time','api/:version.time/index');
+Route::get('api/:version/cat','api/:version.cat/getCat');
+Route::get('api/:version/index','api/:version.index/index');

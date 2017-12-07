@@ -81,4 +81,20 @@ class Common extends Controller
         list($t1,$t2) = explode(' ',microtime());
         return $t2 . ceil($t1 * 1000);
     }
+
+    /**
+     * @param array $data
+     * @return array
+     * 处理获取的新闻数据
+     */
+    public function getDealNews($data = array()) {
+        if(empty($data)) {
+            return [];
+        }
+        $cats = config('cats.lists');
+        foreach ($data as $k=>$v) {
+            $data[$k]['catename'] = $cats[$v['catid']] ? $cats[$v['catid']] : '-';
+        }
+        return $data;
+    }
 }
