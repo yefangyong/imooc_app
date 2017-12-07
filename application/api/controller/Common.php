@@ -28,6 +28,22 @@ class Common extends Controller
      */
     public $header;
     /**
+     * @var
+     * 第几页
+     */
+    public $page;
+    /**
+     * @var
+     * 每页多少条
+     */
+    public $size;
+
+    /**
+     * @var
+     * 从第几条开始获取
+     */
+    public $from;
+    /**
      * 控制器初始化
      */
     public function _initialize()
@@ -96,5 +112,15 @@ class Common extends Controller
             $data[$k]['catename'] = $cats[$v['catid']] ? $cats[$v['catid']] : '-';
         }
         return $data;
+    }
+
+    /**
+     * @param $data
+     * 获取分页的page 和 size
+     */
+    public function getPageSize($data) {
+        $this->page = !empty($data['page'])?$data['page']:1;
+        $this->size = !empty($data['size'])?$data['size']:config('pagination.list_rows');
+        $this->from = ($this->page-1)*$this->size;
     }
 }

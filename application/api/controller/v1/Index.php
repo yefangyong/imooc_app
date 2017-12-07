@@ -16,11 +16,13 @@ class Index extends Common
     /**
      * @return \think\response\Json
      * APP首页的数据
+     * 1.头图 默认4条
+     * 2.推荐数据 默认20条
      */
     public function index() {
-        $heads = model('News')->getHeadNormalNews();
+        $heads = model('News')->getHeadNormalNews(4);
 
-        $positions= model('News')->getPositionNormalNews();
+        $positions= model('News')->getPositionNormalNews(20);
 
         $position = $this->getDealNews($positions);
 

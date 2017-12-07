@@ -32,12 +32,14 @@ class News extends Base
      * @return false|\PDOStatement|string|\think\Collection
      * 模式二，获取分页的数据
      */
-    public function getNewsByCondition($condition,$from,$size) {
-        $condition['status'] = [
-            'neq',config('code.status_delete')
-        ];
+    public function getNewsByCondition($condition,$from = 0,$size = 5) {
+        if(!isset($condition['status'])) {
+            $condition['status'] = [
+                'neq',config('code.status_delete')
+            ];
+        }
         $order = ['id'=>'desc'];
-        $res = $this->where($condition)->limit($from,$size)->order($order)->select();
+        $res = $this->where($condition)->field($this->_getListFiled())->limit($from,$size)->order($order)->select();
         return $res;
     }
 
@@ -46,10 +48,12 @@ class News extends Base
      * @return int|string
      * 获取符合条件的总数
      */
-    public function getNewsCountByCondition($condition) {
-        $condition['status'] = [
-            'neq',config('code.status_delete')
-        ];
+    public function getNewsCountByCondition($condition = []) {
+        if(!isset($condition['status'])) {
+            $condition['status'] = [
+                'neq',config('code.status_delete')
+            ];
+        }
         $count = $this->where($condition)->count();
         return $count;
     }
