@@ -77,6 +77,21 @@ class News extends Base
     /**
      * @param int $num
      * @return false|\PDOStatement|string|\think\Collection
+     * 获取排行的数据
+     */
+    public function getRankNormalNews($num = 5) {
+        $data = [
+            'status'=>1,
+        ];
+        $order = [
+            'read_count'=>'desc'
+        ];
+        return $this->where($data)->field($this->_getListFiled())->order($order)->limit($num)->select();
+    }
+
+    /**
+     * @param int $num
+     * @return false|\PDOStatement|string|\think\Collection
      * 获取推荐的数据
      */
     public function getPositionNormalNews($num = 20) {

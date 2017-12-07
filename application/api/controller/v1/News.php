@@ -25,11 +25,12 @@ class News extends Common
         $this->getPageSize($data);
 
         $whereData['status'] = config('code.status_normal');
-
         if(!empty($data['catid'])) {
-            $whereData['catid'] = input('get.catid',0,'intval');
+            $whereData['catid'] = input('get.catid', 0, 'intval');
         }
-
+        if(!empty($data['title'])) {
+            $whereData['title'] = ['like',"%".$data['title']."%"];
+        }
         //总数
         $total = model('News')->getNewsCountByCondition($whereData);
 
@@ -44,7 +45,6 @@ class News extends Common
             'page_num'=>ceil($total / $this->size)
         ];
         return show(config('app.success'),'ok',$result,200);
-
 
     }
 }

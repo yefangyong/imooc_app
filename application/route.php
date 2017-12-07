@@ -16,3 +16,4 @@ Route::get('api/:version/time','api/:version.time/index');
 Route::get('api/:version/cat','api/:version.cat/getCat');
 Route::get('api/:version/index','api/:version.index/index');
 Route::resource('api/:version/news','api/:version.news');
+Route::get('api/:version/rank','api/:version.rank/index');
