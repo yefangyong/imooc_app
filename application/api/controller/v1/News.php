@@ -10,6 +10,7 @@ namespace app\api\controller\v1;
 
 
 use app\api\controller\Common;
+use think\Exception;
 
 class News extends Common
 {
@@ -45,6 +46,32 @@ class News extends Common
             'page_num'=>ceil($total / $this->size)
         ];
         return show(config('app.success'),'ok',$result,200);
+    }
 
+    /**
+     * @return \think\response\Json
+     * 详情页面的接口
+     */
+    public function read() {
+        //验证参数是否合法 (new NewsValidate())->gocheck();
+        $id = intval(input('param.id'));
+        try{
+            $new =\app\Common\Model\News::get(array('id'=>$id,'status'=>config('code.status_normal')));
+        }catch (Exception $e) {
+            return show(500,$e->getMessage(),'',500);
+        }
+        if(empty($new)) {
+            return show(404,'该新闻不存在','',404);
+        }
+        $cats = config('cats.lists');
+
+        $new->catname = $cats[$new->catid];
+
+        try {
+            model('News')->where(['id'=>$new->id])->setInc('read_count');
+        }catch (Exception $e) {
+            return show(500,$e->getMessage(),'',500);
+        }
+        return show(1,'ok',$new,200);
     }
 }
